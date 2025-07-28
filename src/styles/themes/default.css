@@ -211,6 +211,12 @@
   z-index: 10;
 }
 
+.presentation-theme-default .nav-center {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .presentation-theme-default .nav-button {
   background-color: transparent;
   color: #ffffff;
@@ -229,6 +235,18 @@
 .presentation-theme-default .nav-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.presentation-theme-default .nav-button.refresh-button {
+  padding: 0.5rem 0.75rem;
+  font-size: 1.2rem;
+  min-width: auto;
+  border: none;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .presentation-theme-default .nav-counter {

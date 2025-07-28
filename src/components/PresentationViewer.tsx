@@ -76,6 +76,7 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [nextSlideIndex, setNextSlideIndex] = useState<number | null>(null);
   const [slideInputValue, setSlideInputValue] = useState('1');
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -100,7 +101,6 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
         
         // Split the MDX content by slide separators (---)
         const slideContents = slidesContent.split('---').map(content => content.trim()).filter(Boolean);
-        console.log('Raw slide contents:', slideContents.length, slideContents);
         
         const parsedSlides = await Promise.all(
           slideContents.map(async (content, index) => ({
@@ -223,6 +223,34 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
     setSlideInputValue((currentSlide + 1).toString());
   }, [currentSlide]);
 
+  const refreshPolls = async () => {
+    if (!presentationId || refreshing) return;
+
+    setRefreshing(true);
+    try {
+      const response = await fetch(`/api/presentations/${presentationId}/refresh-polls`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: slidesContent })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Polls refreshed:', result.message);
+        // Polls will update automatically via Supabase Realtime
+      } else {
+        const error = await response.json();
+        console.error('Error refreshing polls:', error);
+      }
+    } catch (error) {
+      console.error('Error refreshing polls:', error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
 
 
   if (!mounted || loading) {
@@ -303,44 +331,57 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
         >
           ← Prev
         </button>
-        <div className="nav-counter">
-          <input
-            type="text"
-            value={slideInputValue}
-            onChange={(e) => setSlideInputValue(e.target.value)}
-            onFocus={(e) => {
-              e.target.select();
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+        <div className="nav-center">
+          <div className="nav-counter">
+            <input
+              type="text"
+              value={slideInputValue}
+              onChange={(e) => setSlideInputValue(e.target.value)}
+              onFocus={(e) => {
+                e.target.select();
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  const slideNum = parseInt(slideInputValue, 10);
+                  if (slideNum >= 1 && slideNum <= slides.length) {
+                    goToSlide(slideNum - 1);
+                  }
+                }
+              }}
+              onBlur={() => {
                 const slideNum = parseInt(slideInputValue, 10);
                 if (slideNum >= 1 && slideNum <= slides.length) {
                   goToSlide(slideNum - 1);
+                } else {
+                  setSlideInputValue((currentSlide + 1).toString());
                 }
-              }
-            }}
-            onBlur={() => {
-              const slideNum = parseInt(slideInputValue, 10);
-              if (slideNum >= 1 && slideNum <= slides.length) {
-                goToSlide(slideNum - 1);
-              } else {
-                setSlideInputValue((currentSlide + 1).toString());
-              }
-            }}
+              }}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'inherit',
+                font: 'inherit',
+                textAlign: 'center',
+                width: `${slideInputValue.length + 1}ch`,
+                minWidth: '2ch',
+                outline: 'none',
+                padding: 0,
+                margin: 0
+              }}
+            />
+            <span> / {slides.length}</span>
+          </div>
+          <button 
+            className="nav-button refresh-button" 
+            onClick={refreshPolls}
+            disabled={!presentationId || loading || refreshing}
+            title="Refresh polls from markdown content"
             style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'inherit',
-              font: 'inherit',
-              textAlign: 'center',
-              width: `${slideInputValue.length + 1}ch`,
-              minWidth: '2ch',
-              outline: 'none',
-              padding: 0,
-              margin: 0
+              animation: refreshing ? 'spin 1s linear infinite' : 'none'
             }}
-          />
-          <span> / {slides.length}</span>
+          >
+            ↻
+          </button>
         </div>
         <button 
           className="nav-button" 

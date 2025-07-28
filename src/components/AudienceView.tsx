@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { subscribeToPresentationUpdates, getPollForSlide, castVote } from '@/lib/presentation-helpers';
+import { subscribeToPresentationUpdates, getPollForSlide, castVote, subscribeToPollUpdates } from '@/lib/presentation-helpers';
 import type { WebPresPresentation, WebPresPollOption, WebPresPoll } from '@/lib/supabase';
 
 interface AudienceViewProps {
@@ -46,19 +46,28 @@ export default function AudienceView({ presentation }: AudienceViewProps) {
     checkForPoll();
   }, [presentation.id, currentSlide]);
 
+  useEffect(() => {
+    if (!poll) return;
+
+    // Subscribe to poll updates for real-time results
+    const subscription = subscribeToPollUpdates(poll.id, (updatedOptions) => {
+      setPollOptions(updatedOptions);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [poll]);
+
   const handleVote = async (optionId: string) => {
     if (hasVoted || voting || !poll) return;
 
     setVoting(true);
-    const success = await castVote(poll.id, optionId);
+    const success = await castVote(optionId);
     
     if (success) {
       setHasVoted(true);
-      // Refresh poll options to show updated counts
-      const pollData = await getPollForSlide(presentation.id, currentSlide);
-      if (pollData) {
-        setPollOptions(pollData.options);
-      }
+      // Poll options will update automatically via Supabase Realtime
     }
     
     setVoting(false);

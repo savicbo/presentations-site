@@ -31,11 +31,10 @@ const doto = Doto({
   weight: ["400", "500", "600", "700", "900"],
 });
 
-// Bitcount Single - using CSS import since it's not in next/font/google yet
-// We'll handle this with CSS variables instead of localFont
+// Bitcount Single - using Google Fonts via external CSS
 const bitcountSingle = {
   variable: "--font-primary",
-  className: "font-primary",
+  className: "font-primary"
 };
 
 // Export all font instances for potential use
@@ -48,7 +47,6 @@ export const FONT_CONFIG = {
     name: "Bitcount Single",
     font: bitcountSingle,
     fallback: "monospace",
-    customCSS: true, // This font uses custom CSS import
   },
   
   // Alternative configurations - uncomment one and comment out primary above:

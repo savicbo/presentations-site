@@ -17,11 +17,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={primaryFont.variable}>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body
-        className={`${primaryFont.variable} font-primary antialiased`}
+        className="font-primary antialiased"
       >
         {children}
       </body>
