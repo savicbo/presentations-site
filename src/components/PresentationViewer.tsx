@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
@@ -126,27 +126,9 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
     initializePresentation();
   }, [slidesContent, mounted, config.shortId, config.title]);
 
-  // Keyboard navigation effect
-  useEffect(() => {
-    if (!mounted || loading) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (isTransitioning) return;
-      
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        prevSlide();
-      } else if (e.key === 'ArrowRight' || e.key === ' ') {
-        e.preventDefault();
-        nextSlide();
-      }
-    };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [mounted, loading, isTransitioning, currentSlide, slides.length]);
-
-  const transitionToSlide = async (newSlideIndex: number) => {
+  const transitionToSlide = useCallback(async (newSlideIndex: number) => {
     if (isTransitioning || newSlideIndex === currentSlide) return;
     
     const transitionConfig = getTransitionByName(config.transition || DEFAULT_TRANSITION);
@@ -194,21 +176,41 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
         }
       }, transitionConfig.duration);
     }
-  };
+  }, [isTransitioning, currentSlide, config.transition, presentationId]);
 
-  const nextSlide = async () => {
+  const nextSlide = useCallback(async () => {
     console.log('Next clicked, current:', currentSlide, 'total:', slides.length);
     if (currentSlide < slides.length - 1 && !isTransitioning) {
       await transitionToSlide(currentSlide + 1);
     }
-  };
+  }, [currentSlide, slides.length, isTransitioning, transitionToSlide]);
 
-  const prevSlide = async () => {
+  const prevSlide = useCallback(async () => {
     console.log('Prev clicked, current:', currentSlide);
     if (currentSlide > 0 && !isTransitioning) {
       await transitionToSlide(currentSlide - 1);
     }
-  };
+  }, [currentSlide, isTransitioning, transitionToSlide]);
+
+  // Keyboard navigation effect
+  useEffect(() => {
+    if (!mounted || loading) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isTransitioning) return;
+      
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        nextSlide();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [mounted, loading, isTransitioning, nextSlide, prevSlide]);
 
   const goToSlide = async (slideIndex: number) => {
     if (slideIndex >= 0 && slideIndex < slides.length && slideIndex !== currentSlide && !isTransitioning) {
@@ -259,7 +261,7 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
               {...slides[currentSlide].content} 
               components={{
                 ...components,
-                Poll: (props: any) => (
+                Poll: (props: React.ComponentProps<typeof Poll>) => (
                   <Poll 
                     {...props} 
                     presentationShortId={config.shortId}
@@ -279,7 +281,7 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
                 {...slides[nextSlideIndex].content} 
                 components={{
                   ...components,
-                  Poll: (props: any) => (
+                  Poll: (props: React.ComponentProps<typeof Poll>) => (
                     <Poll 
                       {...props} 
                       presentationShortId={config.shortId}

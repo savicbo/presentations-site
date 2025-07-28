@@ -17,7 +17,6 @@ export default function QRCode({
   bgColor = '#0a2950' 
 }: QRCodeProps) {
   const [mounted, setMounted] = useState(false);
-  const [qrCode, setQrCode] = useState<QRCodeStyling | null>(null);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -61,8 +60,6 @@ export default function QRCode({
         color: fgColor || "#ffffff"
       }
     });
-
-    setQrCode(qrCodeInstance);
 
     if (ref.current) {
       ref.current.innerHTML = '';

@@ -1,5 +1,4 @@
 import { Pixelify_Sans, Inter, JetBrains_Mono, Fira_Code, Doto } from "next/font/google";
-import localFont from "next/font/local";
 
 // Font loaders - must be called at module scope
 const pixelifySans = Pixelify_Sans({
@@ -38,6 +37,9 @@ const bitcountSingle = {
   variable: "--font-primary",
   className: "font-primary",
 };
+
+// Export all font instances for potential use
+export { pixelifySans, inter, jetbrainsMono, firaCode, doto };
 
 // Font configuration - Change this to switch fonts easily
 export const FONT_CONFIG = {

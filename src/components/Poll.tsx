@@ -102,7 +102,6 @@ export default function Poll({ question, options, presentationShortId = 'demo123
   }
 
   const totalVotes = pollOptions.reduce((sum, option) => sum + option.vote_count, 0);
-  const maxVotes = Math.max(...pollOptions.map(option => option.vote_count), 1);
 
   return (
     <div className="poll-container">
@@ -112,8 +111,7 @@ export default function Poll({ question, options, presentationShortId = 'demo123
         {pollOptions.map((option, index) => {
           const votes = option.vote_count;
           const percentage = totalVotes > 0 ? (votes / totalVotes) * 100 : 0;
-          // Round to nearest 10% and calculate number of boxes (0-10)
-          const roundedPercentage = Math.round(percentage / 10) * 10;
+          // Calculate number of boxes (0-10)
           const numBoxes = Math.round(percentage / 10);
           
           return (

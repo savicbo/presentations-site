@@ -83,19 +83,7 @@ export async function updateCurrentSlide(presentationId: string, slideNumber: nu
   return true;
 }
 
-// Legacy function - no longer needed with content hash approach
-// Keeping for compatibility but it's not used anymore
-async function createPollWithRetry(
-  presentationId: string,
-  slideNumber: number,
-  question: string,
-  options: string[],
-  retryCount = 0
-): Promise<WebPresPoll | null> {
-  console.log('createPollWithRetry is deprecated - use createPollWithOptions instead');
-  const contentHash = generatePollContentHash(question, options);
-  return await createPollWithOptions(presentationId, slideNumber, question, options, contentHash);
-}
+
 
 // Create a poll for a specific slide with content hash
 export async function createPoll(

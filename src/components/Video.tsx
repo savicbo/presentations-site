@@ -57,7 +57,7 @@ export default function Video({
       referrerPolicy="strict-origin-when-cross-origin"
       style={{
         width: '100%',
-        aspectRatio: '16 / 9',
+        aspectRatio: aspectRatio === '56.25%' ? '16 / 9' : aspectRatio,
         borderRadius: '8px',
         border: 'none',
         ...(maxHeight && { maxHeight }),
