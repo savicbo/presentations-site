@@ -1,4 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Presentations Site
+
+A modern presentation system built with Next.js, featuring real-time polling and audience interaction.
+
+## Features
+
+- 📊 **Real-time Polling**: Interactive polls with live vote counting
+- 🎨 **Terminal Aesthetic**: Low-fi, retro-style design
+- 📱 **Mobile-Friendly**: QR codes for easy audience access
+- 🔄 **Live Sync**: Presenter slides sync to audience view
+- 🎯 **MDX Support**: Write presentations in Markdown with React components
+
+## Environment Setup
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```bash
+# Required for all environments
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Required for local development only (presentation management)
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+```
+
+### Security Model
+
+- **Production**: Only anonymous users can read presentations and vote in polls
+- **Development**: Service role key enables presentation creation and management
+- **RLS Policies**: Database access is controlled via Row Level Security
 
 ## Getting Started
 
@@ -10,15 +39,9 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
 

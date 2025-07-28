@@ -56,19 +56,42 @@ export default function Poll({ question, options, presentationShortId = 'demo123
         setLoading(false);
       } catch (error) {
         console.error('Error initializing poll:', error);
-        // Try to fetch any existing poll as fallback
-        try {
-          const fallbackPresentation = await getPresentationByShortId(presentationShortId);
-          if (fallbackPresentation) {
-            const fallbackPollData = await getPollForSlide(fallbackPresentation.id, slideNumber);
-            if (fallbackPollData) {
-              console.log('Using fallback poll after error:', fallbackPollData.poll.id);
-              setPollId(fallbackPollData.poll.id);
-              setPollOptions(fallbackPollData.options);
+        
+        // Check if this is a production environment error (admin operations not available)
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        if (errorMessage.includes('Admin operations not available in production')) {
+          console.log('Running in production mode - admin operations disabled');
+          // In production, try to fetch existing poll only
+          try {
+            const fallbackPresentation = await getPresentationByShortId(presentationShortId);
+            if (fallbackPresentation) {
+              const fallbackPollData = await getPollForSlide(fallbackPresentation.id, slideNumber);
+              if (fallbackPollData) {
+                console.log('Using existing poll in production mode:', fallbackPollData.poll.id);
+                setPollId(fallbackPollData.poll.id);
+                setPollOptions(fallbackPollData.options);
+              } else {
+                console.log('No existing poll found in production mode');
+              }
             }
+          } catch (fallbackError) {
+            console.error('Failed to fetch existing poll in production:', fallbackError);
           }
-        } catch (fallbackError) {
-          console.error('Fallback poll fetch also failed:', fallbackError);
+        } else {
+          // Try to fetch any existing poll as fallback for other errors
+          try {
+            const fallbackPresentation = await getPresentationByShortId(presentationShortId);
+            if (fallbackPresentation) {
+              const fallbackPollData = await getPollForSlide(fallbackPresentation.id, slideNumber);
+              if (fallbackPollData) {
+                console.log('Using fallback poll after error:', fallbackPollData.poll.id);
+                setPollId(fallbackPollData.poll.id);
+                setPollOptions(fallbackPollData.options);
+              }
+            }
+          } catch (fallbackError) {
+            console.error('Fallback poll fetch also failed:', fallbackError);
+          }
         }
         setLoading(false);
       }

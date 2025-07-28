@@ -1,5 +1,13 @@
-import { supabase } from './supabase';
+import { supabase, supabaseAdmin } from './supabase';
 import type { WebPresPresentation, WebPresPoll, WebPresPollOption } from './supabase';
+
+// Helper function to get admin client or throw error if not available
+function getAdminClient() {
+  if (!supabaseAdmin) {
+    throw new Error('Admin operations not available in production. Service role key not configured.');
+  }
+  return supabaseAdmin;
+}
 
 // Simple in-memory lock to prevent race conditions when creating polls
 const pollCreationLocks = new Map<string, Promise<WebPresPoll | null>>();
@@ -31,7 +39,8 @@ export function generateShortId(): string {
 export async function createPresentation(title: string, shortId?: string): Promise<WebPresPresentation | null> {
   const presentationShortId = shortId || generateShortId();
   
-  const { data, error } = await supabase
+  const admin = getAdminClient();
+  const { data, error } = await admin
     .from('web_pres_presentations')
     .insert({
       title,
@@ -70,7 +79,8 @@ export async function getPresentationByShortId(shortId: string): Promise<WebPres
 
 // Update current slide for a presentation
 export async function updateCurrentSlide(presentationId: string, slideNumber: number): Promise<boolean> {
-  const { error } = await supabase
+  const admin = getAdminClient();
+  const { error } = await admin
     .from('web_pres_presentations')
     .update({ current_slide: slideNumber })
     .eq('id', presentationId);
@@ -96,7 +106,8 @@ export async function createPoll(
   console.log('Attempting to create poll for slide', slideNumber, 'with hash', contentHash);
   
   // First create the poll with content hash
-  const { data: poll, error: pollError } = await supabase
+  const admin = getAdminClient();
+  const { data: poll, error: pollError } = await admin
     .from('web_pres_polls')
     .insert({
       presentation_id: presentationId,
@@ -252,7 +263,8 @@ export function subscribeToPollUpdates(
 export async function deactivatePoll(pollId: string): Promise<boolean> {
   console.log('Deactivating poll:', pollId);
   
-  const { error } = await supabase
+  const admin = getAdminClient();
+  const { error } = await admin
     .from('web_pres_polls')
     .update({ is_active: false })
     .eq('id', pollId);
@@ -273,7 +285,8 @@ export async function deactivateAllPollsForSlide(
 ): Promise<boolean> {
   console.log('Deactivating all polls for slide:', slideNumber);
   
-  const { error } = await supabase
+  const admin = getAdminClient();
+  const { error } = await admin
     .from('web_pres_polls')
     .update({ is_active: false })
     .eq('presentation_id', presentationId)
@@ -320,7 +333,8 @@ export async function getInactivePollByContentHash(
 export async function reactivatePoll(pollId: string): Promise<boolean> {
   console.log('Reactivating poll:', pollId);
   
-  const { error } = await supabase
+  const admin = getAdminClient();
+  const { error } = await admin
     .from('web_pres_polls')
     .update({ is_active: true })
     .eq('id', pollId);
@@ -359,14 +373,15 @@ export async function createPollWithOptions(
     order_index: index
   }));
   
-  const { error: optionsError } = await supabase
+  const admin = getAdminClient();
+  const { error: optionsError } = await admin
     .from('web_pres_poll_options')
     .insert(pollOptions);
     
   if (optionsError) {
     console.error('Error creating poll options:', optionsError);
     // Clean up the poll if options creation failed
-    await supabase.from('web_pres_polls').delete().eq('id', poll.id);
+    await admin.from('web_pres_polls').delete().eq('id', poll.id);
     return null;
   }
   
@@ -378,8 +393,10 @@ export async function createPollWithOptions(
 export async function archivePoll(pollId: string): Promise<boolean> {
   console.log('Archiving poll by deletion (legacy):', pollId);
   
+  const admin = getAdminClient();
+  
   // First delete all poll options
-  const { error: optionsError } = await supabase
+  const { error: optionsError } = await admin
     .from('web_pres_poll_options')
     .delete()
     .eq('poll_id', pollId);
@@ -401,7 +418,7 @@ export async function archivePoll(pollId: string): Promise<boolean> {
   }
   
   // Finally delete the poll itself
-  const { error: pollError } = await supabase
+  const { error: pollError } = await admin
     .from('web_pres_polls')
     .delete()
     .eq('id', pollId);
