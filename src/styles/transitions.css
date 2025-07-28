@@ -1,0 +1,281 @@
+/* Slide Transitions CSS */
+
+.slide-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.slide-wrapper {
+  position: relative;
+  width: 100%;
+  opacity: 1;
+  transform: none;
+}
+
+/* Position slides absolutely only during transitions */
+.slide-container.transitioning .slide-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* No Transition */
+.transition-none .slide-wrapper {
+  transition: none;
+}
+
+/* Fade Transition */
+.transition-fade .slide-wrapper {
+  transition: opacity 0.25s ease-in-out;
+}
+
+/* During fade transition, fade out the current slide */
+.transition-fade.transitioning .slide-wrapper {
+  opacity: 0;
+}
+
+/* When not transitioning, slide should be visible */
+.transition-fade:not(.transitioning) .slide-wrapper {
+  opacity: 1;
+}
+
+/* Slide Left Transition */
+.transition-slide-left .slide-wrapper {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.transition-slide-left .slide-wrapper.slide-exit {
+  transform: translateX(-100%);
+}
+
+.transition-slide-left .slide-wrapper.slide-enter {
+  transform: translateX(100%);
+}
+
+.transition-slide-left .slide-wrapper.slide-enter-active {
+  transform: translateX(0);
+}
+
+/* Slide Right Transition */
+.transition-slide-right .slide-wrapper {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.transition-slide-right .slide-wrapper.slide-exit {
+  transform: translateX(100%);
+}
+
+.transition-slide-right .slide-wrapper.slide-enter {
+  transform: translateX(-100%);
+}
+
+.transition-slide-right .slide-wrapper.slide-enter-active {
+  transform: translateX(0);
+}
+
+/* Slide Up Transition */
+.transition-slide-up .slide-wrapper {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.transition-slide-up .slide-wrapper.slide-exit {
+  transform: translateY(-100%);
+}
+
+.transition-slide-up .slide-wrapper.slide-enter {
+  transform: translateY(100%);
+}
+
+.transition-slide-up .slide-wrapper.slide-enter-active {
+  transform: translateY(0);
+}
+
+/* Slide Down Transition */
+.transition-slide-down .slide-wrapper {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.transition-slide-down .slide-wrapper.slide-exit {
+  transform: translateY(100%);
+}
+
+.transition-slide-down .slide-wrapper.slide-enter {
+  transform: translateY(-100%);
+}
+
+.transition-slide-down .slide-wrapper.slide-enter-active {
+  transform: translateY(0);
+}
+
+/* Zoom Transition */
+.transition-zoom .slide-wrapper {
+  transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
+}
+
+.transition-zoom .slide-wrapper.slide-exit {
+  transform: scale(0.8);
+  opacity: 0;
+}
+
+.transition-zoom .slide-wrapper.slide-enter {
+  transform: scale(1.2);
+  opacity: 0;
+}
+
+.transition-zoom .slide-wrapper.slide-enter-active {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Flip Transition */
+.transition-flip .slide-wrapper {
+  transition: transform 0.8s ease-in-out;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.transition-flip .slide-wrapper.slide-exit {
+  transform: rotateY(-90deg);
+}
+
+.transition-flip .slide-wrapper.slide-enter {
+  transform: rotateY(90deg);
+}
+
+.transition-flip .slide-wrapper.slide-enter-active {
+  transform: rotateY(0deg);
+}
+
+/* Cube Transition */
+.transition-cube {
+  perspective: 1200px;
+}
+
+.transition-cube .slide-wrapper {
+  transition: transform 0.9s cubic-bezier(0.15, 0.85, 0.35, 1);
+  transform-style: preserve-3d;
+}
+
+.transition-cube .slide-wrapper.slide-exit {
+  transform: rotateX(-90deg) translateZ(-50vh);
+}
+
+.transition-cube .slide-wrapper.slide-enter {
+  transform: rotateX(90deg) translateZ(-50vh);
+}
+
+.transition-cube .slide-wrapper.slide-enter-active {
+  transform: rotateX(0deg) translateZ(0);
+}
+
+/* Animation states for smooth transitions */
+.slide-wrapper.transitioning {
+  pointer-events: none;
+}
+
+/* Ensure slides don't interfere with each other during transitions */
+.slide-container .slide-wrapper:not(.slide-active) {
+  z-index: 1;
+}
+
+.slide-container .slide-wrapper.slide-active {
+  z-index: 2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .transition-cube .slide-wrapper.slide-exit,
+  .transition-cube .slide-wrapper.slide-enter {
+    transform: rotateX(-90deg) translateZ(-30vh);
+  }
+  
+  .transition-flip .slide-wrapper {
+    transition-duration: 0.6s;
+  }
+  
+  .transition-cube .slide-wrapper {
+    transition-duration: 0.7s;
+  }
+}
+
+/* Defocus Transition */
+.transition-defocus .slide-wrapper {
+  transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* During defocus transition, blur out the current slide */
+.transition-defocus.transitioning .slide-wrapper {
+  filter: blur(20px);
+  opacity: 0.3;
+}
+
+/* When not transitioning, slide should be sharp and visible */
+.transition-defocus:not(.transitioning) .slide-wrapper {
+  filter: blur(0px);
+  opacity: 1;
+}
+
+/* QR Code Transitions */
+.qr-transition-container {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Fade transition for QR code */
+.qr-transition-container.transition-fade.transitioning .qr-content {
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.qr-transition-container.transition-fade:not(.transitioning) .qr-content {
+  opacity: 1;
+}
+
+/* Defocus transition for QR code */
+.qr-transition-container.transition-defocus.transitioning .qr-content {
+  filter: blur(20px);
+  opacity: 0.3;
+  transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.qr-transition-container.transition-defocus:not(.transitioning) .qr-content {
+  filter: blur(0px);
+  opacity: 1;
+}
+
+/* Zoom transition for QR code */
+.qr-transition-container.transition-zoom.transitioning .qr-content {
+  transform: scale(0.8);
+  opacity: 0;
+  transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
+}
+
+.qr-transition-container.transition-zoom:not(.transitioning) .qr-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .slide-wrapper {
+    transition: opacity 0.3s ease-in-out !important;
+    transform: none !important;
+  }
+  
+  .slide-wrapper.slide-exit {
+    opacity: 0 !important;
+    transform: none !important;
+  }
+  
+  .slide-wrapper.slide-enter {
+    opacity: 0 !important;
+    transform: none !important;
+  }
+  
+  .slide-wrapper.slide-enter-active {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

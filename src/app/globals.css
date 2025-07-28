@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@hackernoon/pixel-icon-library/fonts/iconfont.css";
 
 :root {
   --background: #ffffff;
@@ -8,8 +9,12 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-primary: 'Bitcount Single', monospace;
+  --color-presentation-bg: #0a2950;
+}
+
+.font-primary {
+  font-family: 'Bitcount Single', monospace;
 }
 
 @media (prefers-color-scheme: dark) {

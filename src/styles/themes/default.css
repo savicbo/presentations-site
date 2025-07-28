@@ -1,0 +1,278 @@
+/* Default Theme - Low-fi Terminal Style */
+.presentation-theme-default {
+  background-color: #0a2950;
+  color: #ffffff;
+  font-family: var(--font-primary), monospace;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.presentation-theme-default .slide {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem;
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.presentation-theme-default h1 {
+  font-size: 5rem;
+  font-weight: 700;
+  margin-bottom: 0rem;
+  color: #ffffff;
+  text-shadow: 2px 2px 0px #000000;
+}
+
+/* Reduce space between h1 and immediately following paragraph */
+.presentation-theme-default h1 + p {
+  margin-top: -1rem;
+  margin-bottom: 0.5rem;
+}
+
+.presentation-theme-default h2 {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.presentation-theme-default p {
+  font-size: 1.75rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.presentation-theme-default ul, .presentation-theme-default ol {
+  font-size: 1.75rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+  list-style: none;
+}
+
+.presentation-theme-default ul li {
+  margin-bottom: 0.5rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.presentation-theme-default ol li {
+  margin-bottom: 0.5rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+/* Pixelated bullet icons for unordered lists */
+.presentation-theme-default ul li::before {
+  content: '■';
+  position: absolute;
+  left: 0;
+  top: 1.2em;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px #000000;
+  font-family: monospace;
+  line-height: 1;
+}
+
+/* Terminal-style numbered bullets for ordered lists */
+.presentation-theme-default ol {
+  counter-reset: terminal-counter;
+}
+
+.presentation-theme-default ol li {
+  counter-increment: terminal-counter;
+}
+
+.presentation-theme-default ol li::before {
+  content: '[' counter(terminal-counter) ']';
+  position: absolute;
+  left: 0;
+  top: 0.4em;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px #000000;
+  font-family: var(--font-primary), monospace;
+  line-height: 1;
+}
+
+/* Nested list styling (sub-bullets) */
+.presentation-theme-default ul ul,
+.presentation-theme-default ol ol,
+.presentation-theme-default ul ol,
+.presentation-theme-default ol ul {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin-top: 0.25rem;
+  margin-bottom: 2rem;
+}
+
+.presentation-theme-default ul ul li,
+.presentation-theme-default ol ol li,
+.presentation-theme-default ul ol li,
+.presentation-theme-default ol ul li {
+  margin-bottom: 0.25rem;
+}
+
+/* Smaller bullet for nested unordered lists */
+.presentation-theme-default ul ul li::before {
+  font-size: 0.6rem;
+  top: 0.6em;
+}
+
+/* Smaller numbering for nested ordered lists */
+.presentation-theme-default ol ol li::before {
+  font-size: 0.7rem;
+  top: 0.3em;
+}
+
+/* Utility class to hide default bullets when using custom icons */
+.presentation-theme-default .no-bullet li::before {
+  display: none;
+}
+
+/* Terminal-style poll results */
+.presentation-theme-default .poll-results {
+  background-color: #0a2950;
+  padding: 1rem;
+  margin: 1rem 0;
+  font-family: var(--font-primary), monospace;
+}
+
+.presentation-theme-default .poll-option {
+  margin-bottom: 2rem;
+}
+
+.presentation-theme-default .poll-option:last-child {
+  margin-bottom: 0;
+}
+
+.presentation-theme-default .poll-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  position: relative;
+}
+
+.presentation-theme-default .poll-bar-text {
+  color: #ffffff;
+  font-weight: bold;
+  flex: 1;
+  margin-right: 0;
+}
+
+.presentation-theme-default .poll-bar-boxes {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.presentation-theme-default .poll-box {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ffffff;
+}
+
+.presentation-theme-default .poll-box-filled {
+  background-color: #ffffff;
+}
+
+.presentation-theme-default .poll-box-empty {
+  background-color: transparent;
+}
+
+.presentation-theme-default .poll-stats {
+  color: #ffffff;
+  font-size: 1rem;
+  opacity: 0.8;
+  text-align: right;
+  font-family: var(--font-primary), monospace;
+}
+
+/* Navigation controls */
+.presentation-theme-default .nav-controls {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #000000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  z-index: 10;
+}
+
+.presentation-theme-default .nav-button {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-primary), monospace;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.presentation-theme-default .nav-button:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.presentation-theme-default .nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.presentation-theme-default .nav-counter {
+  color: #ffffff;
+  font-family: var(--font-primary), monospace;
+  font-size: 1rem;
+}
+
+/* Markdown formatting styles */
+.presentation-theme-default strong {
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 2px 2px 0px #000000, 1px 1px 0px #333333;
+  letter-spacing: 0.5px;
+  font-size: calc(1em + 10%);
+}
+
+.presentation-theme-default em {
+  font-style: italic;
+  color: #ffffff;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.presentation-theme-default code {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  color: #00ff00;
+  text-shadow: none;
+}
+
+.presentation-theme-default pre {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 5px;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.presentation-theme-default pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: 1rem;
+}
