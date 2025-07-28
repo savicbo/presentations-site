@@ -134,10 +134,18 @@ export async function getPollForSlide(
 
 // Cast a vote using atomic RPC function
 export async function castVote(optionId: string): Promise<boolean> {
+  const callId = Math.random().toString(36).substring(7);
+  console.log('=== CASTING VOTE ===');
+  console.log('Call ID:', callId);
+  console.log('Option ID:', optionId);
+  console.log('Timestamp:', new Date().toISOString());
+  
   try {
-    const { data, error } = await supabase.rpc('increment_vote', {
+    const { data, error } = await supabase.rpc('increment_vote_fixed', {
       poll_option_id: optionId
     });
+
+    console.log('RPC response for call', callId, '- data:', data, 'error:', error);
 
     if (error) {
       console.error('Error casting vote:', error);
@@ -149,6 +157,7 @@ export async function castVote(optionId: string): Promise<boolean> {
       return false;
     }
 
+    console.log('Vote cast successfully for call', callId);
     return true;
   } catch (error) {
     console.error('Error casting vote:', error);
@@ -183,6 +192,7 @@ export function subscribeToPollUpdates(
   pollId: string,
   onUpdate: (options: WebPresPollOption[]) => void
 ) {
+  console.log('Creating subscription for poll:', pollId);
   return supabase
     .channel(`poll-${pollId}`)
     .on(
@@ -193,7 +203,10 @@ export function subscribeToPollUpdates(
         table: 'web_pres_poll_options',
         filter: `poll_id=eq.${pollId}`
       },
-      async () => {
+      async (payload) => {
+        console.log('Poll update received for poll:', pollId, 'payload:', payload);
+        console.log('Updated record from payload:', payload.new);
+        
         // Fetch updated poll options in slide order
         const { data } = await supabase
           .from('web_pres_poll_options')
@@ -202,6 +215,8 @@ export function subscribeToPollUpdates(
           .order('order_index')
           .order('id');
         
+        console.log('Fetched poll options after update:', data);
+        console.log('Vote counts:', data?.map(opt => ({ text: opt.option_text, votes: opt.vote_count })));
         if (data) {
           onUpdate(data);
         }

@@ -8,9 +8,10 @@ interface PollProps {
   question: string;
   presentationShortId?: string;
   slideNumber?: number;
+  disableSubscription?: boolean;
 }
 
-export default function Poll({ question, presentationShortId = 'demo123', slideNumber = 1 }: PollProps) {
+export default function Poll({ question, presentationShortId = 'demo123', slideNumber = 1, disableSubscription = false }: PollProps) {
   const [pollOptions, setPollOptions] = useState<WebPresPollOption[]>([]);
   const [pollId, setPollId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -45,7 +46,7 @@ export default function Poll({ question, presentationShortId = 'demo123', slideN
   }, [presentationShortId, slideNumber]);
 
   useEffect(() => {
-    if (!pollId) return;
+    if (!pollId || disableSubscription) return;
 
     // Subscribe to poll updates
     const subscription = subscribeToPollUpdates(pollId, (updatedOptions) => {
@@ -55,7 +56,7 @@ export default function Poll({ question, presentationShortId = 'demo123', slideN
     return () => {
       subscription.unsubscribe();
     };
-  }, [pollId]);
+  }, [pollId, disableSubscription]);
 
   if (loading) {
     return (

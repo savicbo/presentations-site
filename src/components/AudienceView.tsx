@@ -60,17 +60,29 @@ export default function AudienceView({ presentation }: AudienceViewProps) {
   }, [poll]);
 
   const handleVote = async (optionId: string) => {
-    if (hasVoted || voting || !poll) return;
+    console.log('=== HANDLE VOTE CALLED ===');
+    console.log('hasVoted:', hasVoted, 'voting:', voting, 'poll exists:', !!poll);
+    console.log('optionId:', optionId);
+    
+    if (hasVoted || voting || !poll) {
+      console.log('Vote blocked - returning early');
+      return;
+    }
 
+    console.log('Proceeding with vote...');
     setVoting(true);
     const success = await castVote(optionId);
     
     if (success) {
+      console.log('Vote successful, setting hasVoted to true');
       setHasVoted(true);
       // Poll options will update automatically via Supabase Realtime
+    } else {
+      console.log('Vote failed');
     }
     
     setVoting(false);
+    console.log('=== HANDLE VOTE COMPLETE ===');
   };
 
   return (

@@ -114,7 +114,7 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
           }))
         );
         
-        console.log('Parsed slides:', parsedSlides.length);
+        
         setSlides(parsedSlides);
         setLoading(false);
       } catch (error) {
@@ -314,6 +314,7 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
                       {...props} 
                       presentationShortId={config.shortId}
                       slideNumber={nextSlideIndex + 1}
+                      disableSubscription={true} // Prevent double subscriptions during transitions
                     />
                   )
                 }} 
@@ -371,17 +372,19 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
             />
             <span> / {slides.length}</span>
           </div>
-          <button 
-            className="nav-button refresh-button" 
-            onClick={refreshPolls}
-            disabled={!presentationId || loading || refreshing}
-            title="Refresh polls from markdown content"
-            style={{
-              animation: refreshing ? 'spin 1s linear infinite' : 'none'
-            }}
-          >
-            ↻
-          </button>
+          {process.env.NEXT_PUBLIC_REFRESH_ENABLED === 'true' && (
+            <button 
+              className="nav-button refresh-button" 
+              onClick={refreshPolls}
+              disabled={!presentationId || loading || refreshing}
+              title="Refresh polls from markdown content"
+              style={{
+                animation: refreshing ? 'spin 1s linear infinite' : 'none'
+              }}
+            >
+              ↻
+            </button>
+          )}
         </div>
         <button 
           className="nav-button" 
