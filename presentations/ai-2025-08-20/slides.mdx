@@ -1,0 +1,424 @@
+# AI @ Communitech
+August 2025
+<br/><br/>
+
+---
+
+## The Plan
+- <PixelIcon name="exclamation-triangle"/>
+- About Gen AI
+- Tips
+- Examples
+- Maker's chat
+
+---
+
+## <PixelIcon name="exclamation-triangle" size={32} /> Content is:
+- Practical
+- Technically imprecise
+- Not always true
+- Subject to change
+- Opinionated
+
+---
+
+# About Gen AI
+
+---
+
+## AI Pre 2023
+
+<div className="flex justify-center items-center gap-32 my-12">
+  <div className="text-center">
+    <PixelIcon name="chart-line" size={80} />
+    <div className="mt-4 text-xl font-bold">Prediction</div>
+  </div>
+  <div className="text-center">
+    <PixelCatFaceIcon size={80} />
+    <div className="mt-4 text-xl font-bold">Classification</div>
+  </div>
+  <div className="text-center">
+    <PixelIcon name="comments" size={80} />
+    <div className="mt-4 text-xl font-bold">NLU</div>
+  </div>
+</div>
+
+
+---
+
+## Gen AI does more than write and draw..
+
+<div className="flex justify-center items-center gap-32 my-12">
+  <div className="text-center">
+    <PixelIcon name="face-thinking" size={80} />
+    <div className="mt-4 text-xl font-bold">Solve Problems</div>
+  </div>
+  <div className="text-center">
+    <PixelIcon name="pencil-ruler" size={80} />
+    <div className="mt-4 text-xl font-bold">Take Action</div>
+  </div>  
+  <div className="text-center">
+    <PixelIcon name="search" size={80} />
+    <div className="mt-4 text-xl font-bold">Search the Web</div>
+  </div>
+  <div className="text-center">
+    <PixelIcon name="code" size={80} />
+    <div className="mt-4 text-xl font-bold">Make Apps</div>
+  </div>
+  <div className="text-center">
+    <PixelIcon name="user" size={80} />
+    <div className="mt-4 text-xl font-bold">Feel Human</div>
+  </div>
+</div>
+
+---
+
+## Gen AI
+- Learned about the world through our writing, pictures, etc..
+  - Not a giant database
+  - Bias, mixed performance, good liars (hallucinations)
+- Probably, sometimes
+- Not omnipotent like skynet
+
+---
+
+## It's messy
+| Make      | Model             |       Year | Features                                                                                                                                                   |
+| :-------- | :---------------- | :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| OpenAI    | GPT-4o            | 2024-05-13 | 128k, image in/out, audio in/out                                         |
+| OpenAI    | GPT-4o            | 2024-11-20 | 128k, image in/out, audio in/out                                         |
+| OpenAI    | GPT-4o-mini       | 2024-07-18 | 128k, image in                                                |
+| OpenAI    | o3                | 2025-04-16 | 200k, reasoning, image in |
+| Anthropic | Claude Opus 4     | 2025-05-22 | 1M, reasoning (optional), image in                                              |
+| Anthropic | Claude Opus 4.1   | 2025-08-05 | 1M, reasoning (optional), image in                                              |
+| Anthropic | Claude Sonnet 4   | 2025-05-22 | 1M, reasoning (optional), image in                                              |
+| Google    | Gemini 2.5 Pro    |    2025-03 | 1M, reasoning, web search, image in/out, audio in/out, video in |
+| Google    | Gemini 2.5 Flash  |    2025-03 | 1M, reasoning, web search, image in/out, audio in/out, video in |
+| Cohere    | Command R+        |    2024-08 | 128k, text |
+| Mistral   | Mistral Large 2   | 2024-07-24 | 128k, Mixed license                                      |
+| Mistral   | Mixtral 8x22B     | 2024-04-17 | 65k, Open source                                          |
+
+---
+
+## Bojan's Test Kitchen Uses:
+- **Google Gemini 2.5 Pro**
+  <ul className="no-bullet">
+    <li>+ Great for most things, especially vision and reasoning.</li>
+    <li>- Slow when reasoning, okay price.</li>
+  </ul>
+- **OpenAI GPT-5 Medium Reasoning**
+  <ul className="no-bullet">
+    <li>+ Amazing at web research, great all-arounder.</li>
+    <li>- Not as clever as Gemini 2.5 Pro, slow when reasoning.</li>
+  </ul>
+- **Qwen3 235B A22B**
+  <ul className="no-bullet">
+    <li>+ *Really* cheap, very fast, pretty clever, available with reasoning.</li>
+    <li>- Not as clever as Gemini 2.5 Pro, not multi-modal, small context window. </li>
+  </ul>
+- **OpenAI GPT-5 Low Reasoning**
+  <ul className="no-bullet">
+    <li>+ Coding: Free*, fast, good at using tools and coding</li>
+    <li>- Not quite as smart of a coder as Sonnet 4</li>
+  </ul>
+
+---
+
+## Tips
+
+- Infinite team of specialists
+- Context is <PixelIcon name="crown" size={28} />
+- Set expectations
+- Break it down
+- Not Frank's Red Hot Sauce
+- Open source / local hosting
+
+---
+
+## Power Using AI
+
+- Reasoning - Allowing the AI to "think" before answering
+- RAG - AI searching a database to help answer a question
+- Agents - AI that can use tools to get data, make changes, calculate, etc.
+- MCP - Easy way for AI to talk to tools
+- Automation
+
+---
+
+## Automation - Make.com, n8n, Zapier.
+![Make.com](/make_com.png)
+
+---
+
+## Examples
+- Apps "Now with AI"
+- ChatGPT In App Clothing
+- AI Jack-Of-All-Trades
+- API
+
+---
+
+# Apps "Now with AI"
+\
+Find more at toolfinder.co
+
+---
+
+## Miro / Lucid Chart / Mermaid Chart
+
+<VimeoVideo 
+  videoId="1104559378" 
+  hash="1a642748c7" 
+  title="2025.07.29 AI Demo - Miro" 
+  autoplay={false} 
+  maxHeight="70vh" 
+/>
+
+---
+
+## Coda / Notion / Sheets
+
+<YouTubeVideo 
+  videoId="bQxXJ1rW2SA" 
+  start={55} 
+  controls={false} 
+  autoplay={true}
+  maxHeight="70vh"
+  title="Coda AI Spreadsheet Cells Demo" 
+/>
+
+---
+
+## Google Drive - Document Summaries
+
+<VimeoVideo videoId="1104598045" hash="b5647ff9d1" title="New Recording - 7/25/2025, 4:36:33 PM" autoplay={true} maxHeight="70vh" />
+
+---
+
+## Amazon - Does This Blender Sing?
+
+<YouTubeVideo 
+  videoId="uXkDMBNCoFo" 
+  controls={true} 
+  autoplay={true}
+  maxHeight="70vh"
+  title="Amazon Blender Demo" 
+/>
+
+---
+
+## Clockwise / Reclaim - Scheduling
+<YouTubeVideo 
+  videoId="genv5izYvUI"  
+  controls={true} 
+  autoplay={true}
+  maxHeight="70vh"
+  title="Clockwise Demo" 
+/>
+
+---
+
+## Hex Data - Everyone's a Data Nerd
+
+<YouTubeVideo 
+  videoId="CwyBAUdYcfw" 
+  start={13} 
+  controls={false} 
+  autoplay={true}
+  maxHeight="70vh"
+  title="Hex Data Demo" 
+/>
+
+---
+
+# ChatGPT In App Clothing
+\
+Find more at TheresAnAIForThat.com
+---
+
+## PDFChat / AskYourPDF / Chatize
+
+<YouTubeVideo 
+  videoId="VXUGHZKVGOk" 
+  controls={false} 
+  autoplay={true}
+  maxHeight="70vh"
+  title="PDF Chat Demo" 
+/>
+
+---
+
+## Notebook LM - Doc to Podcast, Study Guide..
+
+<YouTubeVideo 
+  videoId="6dHmu1GALmA" 
+  start={35} 
+  controls={false} 
+  autoplay={true}
+  maxHeight="70vh"
+  title="Notebook LM Demo" 
+/>
+
+---
+
+## Julius AI - Data Analysis
+
+<YouTubeVideo 
+  videoId="ir8qShUBCco" 
+  start={10} 
+  controls={false} 
+  autoplay={true}
+  maxHeight="70vh"
+  title="Julius AI Demo" 
+/>
+
+---
+
+## Fyxer / Superhuman / Shortwave - Email
+
+<YouTubeVideo 
+  videoId="dQeKk0XEjM4" 
+  start={3} 
+  controls={false} 
+  autoplay={true}
+  maxHeight="70vh"
+  title="Fyxer Demo" 
+/>
+
+---
+
+## Ad Creative / Blaze AI / Surfer SEO
+
+<YouTubeVideo 
+  videoId="6G4maeeb-Dc" 
+  start={41} 
+  controls={false} 
+  autoplay={true}
+  maxHeight="70vh"
+  title="Ad Creative Demo" 
+/>
+
+---
+
+## Fireflies / Circleback / Otter - Meetings
+
+<YouTubeVideo 
+  videoId="kxLIkNSSie8" 
+  start={11} 
+  controls={true} 
+  autoplay={false}
+  maxHeight="70vh"
+  title="Fireflies Demo" 
+/>
+
+---
+
+## Replit / v0 / Lovable / Bolt - Apps
+
+<YouTubeVideo 
+  videoId="gVPsrXy2Hg8" 
+  start={3} 
+  controls={true} 
+  autoplay={false}
+  maxHeight="70vh"
+  title="Replit Demo" 
+/>
+
+---
+
+## Claid / Midjourney / Kling / Flux
+
+<YouTubeVideo 
+  videoId="nNCtOEkL0lU" 
+  start={35} 
+  controls={false} 
+  autoplay={true}
+  maxHeight="70vh"
+  title="Claid Demo" 
+/>
+
+---
+
+## Eleven Labs / Hume.ai / Murf AI
+
+<YouTubeVideo 
+  videoId="_396fziGvrQ" 
+  controls={true} 
+  autoplay={false}
+  maxHeight="70vh"
+  title="Eleven Labs Demo" 
+/>
+
+---
+
+# AI Jack-Of-All-Trades
+
+Compare models at lmarena.ai or LiveBench.ai
+
+---
+
+## ChatGPT / Claude / Gemini
+
+![ChatGPT Interface](https://images.ctfassets.net/lzny33ho1g45/6EbYrjtJGK7Y3IjGRpc9x8/431f10c8ef63ef4908157fb048d498eb/Screen_Shot_2025-02-27_at_1.27.53_PM.png?fm=avif)
+
+---
+
+## Simtheory / Whizi.io / Chat Smith
+
+<VimeoVideo videoId="1105226290" hash="e96b76690c" title="2025.07.29 AI Demo - SimTheory" autoplay={false} maxHeight="70vh" />
+
+---
+
+## Manus / Genspark / ChatGPT Agent
+
+<YouTubeVideo 
+  videoId="K27diMbCsuw" 
+  start={91} 
+  controls={true} 
+  autoplay={false}
+  maxHeight="70vh"
+  title="Manus Demo" 
+/>
+
+---
+
+# API
+
+---
+
+## AI Access
+
+- OpenRouter - 1 API for all LLMs
+- Eden AI - 1 API for tons of AI tools
+- DeepInfra, Together.ai, Hugging Face - Open source models
+- Ragie.ai, Vectara, OpenAI - RAG as a Service
+- Tavily, Jina.ai - Web search
+- Unstract, LlamaIndex, Jina.ai - Document parsing
+
+---
+
+## Prompt structure
+
+\# Context
+\
+You are a [] working for []. The user will provide [].
+\
+\
+\# Instructions
+\
+Your job is to [] and respond with []. 
+\
+\
+\# Rules
+\
+\- Your response must be only []
+\
+\- Format your reply as []
+\
+\- Maintain a [] tone
+\
+\- Include []
+
+---
+
+# Maker's Chat

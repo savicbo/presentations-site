@@ -36,6 +36,7 @@ interface PresentationConfig {
   shortId: string;
   customUrl?: string;
   transition?: string;
+  showQR?: boolean;
   slides: Array<{
     id: number;
     title: string;
@@ -99,8 +100,13 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
           setCurrentSlide(presentation.current_slide - 1); // Convert to 0-based index
         }
         
-        // Split the MDX content by slide separators (---)
-        const slideContents = slidesContent.split('---').map(content => content.trim()).filter(Boolean);
+        // Split the MDX content by slide separators on lines that are exactly '---'
+        // This avoids splitting inside markdown tables that contain dashes
+        const normalized = slidesContent.replace(/\r\n/g, '\n');
+        const slideContents = normalized
+          .split(/\n\s*---\s*\n/g)
+          .map(content => content.trim())
+          .filter(Boolean);
         
         const parsedSlides = await Promise.all(
           slideContents.map(async (content, index) => ({
@@ -274,6 +280,7 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
   }
 
   const transitionConfig = getTransitionByName(config.transition || DEFAULT_TRANSITION);
+  const showQR = config.showQR !== false; // default to showing QR unless explicitly disabled
   
   return (
     <div className={`presentation-theme-${config.theme}`}>
@@ -398,13 +405,15 @@ export default function PresentationViewer({ config, slidesContent }: Presentati
 
       
       {/* Floating QR Code - Bigger on first slide, normal size on others */}
-      <FloatingQR 
-        presentationShortId={config.shortId} 
-        customUrl={config.customUrl}
-        isFirstSlide={currentSlide === 0}
-        transitionClass={transitionConfig.cssClass}
-        isTransitioning={isTransitioning}
-      />
+      {showQR && (
+        <FloatingQR 
+          presentationShortId={config.shortId} 
+          customUrl={config.customUrl}
+          isFirstSlide={currentSlide === 0}
+          transitionClass={transitionConfig.cssClass}
+          isTransitioning={isTransitioning}
+        />
+      )}
     </div>
   );
 }

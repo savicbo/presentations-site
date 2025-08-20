@@ -1,0 +1,15 @@
+{
+  "title": "AI Communitech August 2025",
+  "theme": "default",
+  "shortId": "0820",
+  "customUrl": "tinyurl.com/ai0820",
+  "transition": "defocus",
+  "showQR": false,
+  "slides": [
+    {
+      "id": 1,
+      "title": "AI Communitech August 2025",
+      "content": "slides.mdx"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+    "search.exclude": {
+        "**/bower_components": false,
+        "**/browser_components": true
+    }
+}

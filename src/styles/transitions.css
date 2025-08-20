@@ -279,3 +279,15 @@
     transform: none !important;
   }
 }
+
+/* Basic table spacing inside slides */
+.slide table {
+  border-collapse: collapse; /* prevent extra gaps from border spacing */
+}
+
+.slide th,
+.slide td {
+  /* Slightly increase vertical spacing, keep columns compact */
+  padding: 0.35em 0.6em;
+  line-height: 1.35;
+}
